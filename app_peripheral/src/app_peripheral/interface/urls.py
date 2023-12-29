@@ -1,6 +1,7 @@
-from django.contrib import admin
 from django.urls import path
 
+from app_peripheral.interface.views import hello_world
+
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("", hello_world, name="hello-world"),
 ]
