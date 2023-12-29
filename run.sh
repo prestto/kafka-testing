@@ -52,6 +52,14 @@ function run_migrate {
     cecho "BL" "Migrated..."
 }
 
+function run_clean {
+    cecho "BL" "Tilt down..."
+    tilt down --context event-testing
+    cecho "BL" "Killing minikube..."
+    minikube delete -p event-testing
+    cecho "BL" "Minikube killed..."
+}
+
 function run_start_minikube {
     cecho "BL" "Starting minikube..."
     minikube start -p event-testing --memory=7800
@@ -78,6 +86,7 @@ function show_help {
     cecho "BL" "   * migrate                            - Run migrate."
     cecho "BL" "   * start_minikube                     - Run minikube with profile event-testing."
     cecho "BL" "   * tilt                               - Run Tilt to deploy resources to minikube."
+    cecho "BL" "   * clean                              - Stop Tilt and kill minikube."
 }
 
 
@@ -102,6 +111,9 @@ start_minikube)
     ;;
 tilt)
     run_tilt
+    ;;
+clean)
+    run_clean
     ;;
 *)
     show_help
