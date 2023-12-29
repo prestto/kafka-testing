@@ -6,6 +6,7 @@ k8s_yaml('minikube/everything.yaml')
 # to port 8001 locally.
 # https://docs.tilt.dev/tiltfile_concepts#kubernetes-workloads
 k8s_resource('app-core-deployment', port_forwards=8001)
+k8s_resource('app-peripheral-deployment', port_forwards=8002)
 
 # Define a Docker build based on:
 # docker build -t event_testing/app_core:latest -f app_core/Dockerfile app_core
@@ -15,4 +16,8 @@ docker_build(
     context="app_core",
     dockerfile="./app_core/Dockerfile"
 )
-
+docker_build(
+    'event_testing/app_peripheral:latest',
+    context="app_peripheral",
+    dockerfile="./app_peripheral/Dockerfile"
+)
