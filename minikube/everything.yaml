@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-core-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-core
+  template:
+    metadata:
+      labels:
+        app: app-core
+    spec:
+      containers:
+        - name: app-core
+          image: event_testing/app_core:latest
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-core-service
+spec:
+  selector:
+    app: app-core
+  ports:
+    - protocol: TCP
+      port: 30000
+      targetPort: 8000
+  type: NodePort

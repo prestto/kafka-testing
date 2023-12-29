@@ -65,6 +65,12 @@ function run_start_minikube {
     cecho "BL" "Minikube started..."
 }
 
+function run_tilt {
+    cecho "BL" "Tilting..."
+    tilt up --context event-testing
+    cecho "BL" "Finished Tilting..."
+}
+
 function show_help {
     cecho "BL" "Help: $0 <ACTION>"
     cecho "BL" "Parameters :"
@@ -73,6 +79,7 @@ function show_help {
     cecho "BL" "   * dev                                - Run the dev server."
     cecho "BL" "   * migrate                            - Run migrate."
     cecho "BL" "   * start_minikube                     - Run minikube with profile event-testing."
+    cecho "BL" "   * tilt                               - Run Tilt to deploy resources to minikube."
 }
 
 
@@ -94,6 +101,9 @@ migrate)
     ;;
 start_minikube)
     run_start_minikube
+    ;;
+tilt)
+    run_tilt
     ;;
 *)
     show_help
