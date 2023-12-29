@@ -16,3 +16,17 @@ The following dependencies must be installed to run in local:
 - [Docker](https://www.docker.com/)
 
 Run `./run.sh install` to install these.
+
+### Run
+
+The following commands will be useful for development:
+
+```
+# Run the application
+./run.sh dev
+
+# Clear down the application
+./run.sh clean
+```
+
+A full list of commands can be found by running: `./run.sh help`.
