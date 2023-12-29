@@ -52,12 +52,20 @@ function run_dev {
     cecho "BL" "Dev server stopped..."
 }
 
+function run_migrate {
+    cecho "BL" "Migrating..."
+    cd app_core/
+    python src/manage.py migrate
+    cecho "BL" "Migrated..."
+}
+
 function show_help {
     cecho "BL" "Help: $0 <ACTION>"
     cecho "BL" "Parameters :"
     cecho "BL" " - ACTION values :"
     cecho "BL" "   * install                            - Install system deps."
     cecho "BL" "   * dev                                - Run the dev server."
+    cecho "BL" "   * migrate                            - Run migrate."
 }
 
 
@@ -73,6 +81,9 @@ install)
     ;;
 dev)
     run_dev
+    ;;
+migrate)
+    run_migrate
     ;;
 *)
     show_help
