@@ -45,13 +45,6 @@ function run_install {
     cecho "BL" "Tilt installed."
 }
 
-function run_dev {
-    cecho "BL" "Running dev server..."
-    cd app_core/
-    python src/manage.py runserver
-    cecho "BL" "Dev server stopped..."
-}
-
 function run_migrate {
     cecho "BL" "Migrating..."
     cd app_core/
@@ -69,6 +62,11 @@ function run_tilt {
     cecho "BL" "Tilting..."
     tilt up --context event-testing
     cecho "BL" "Finished Tilting..."
+}
+
+function run_dev {
+    run_start_minikube
+    run_tilt
 }
 
 function show_help {
