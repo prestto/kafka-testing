@@ -1,0 +1,4 @@
+FROM rabbitmq:latest
+
+# Enable RabbitMQ Management Plugin
+RUN rabbitmq-plugins enable rabbitmq_management
