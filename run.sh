@@ -59,6 +59,12 @@ function run_migrate {
     cecho "BL" "Migrated..."
 }
 
+function run_start_minikube {
+    cecho "BL" "Starting minikube..."
+    minikube start -p event-testing --memory=7800
+    cecho "BL" "Minikube started..."
+}
+
 function show_help {
     cecho "BL" "Help: $0 <ACTION>"
     cecho "BL" "Parameters :"
@@ -66,6 +72,7 @@ function show_help {
     cecho "BL" "   * install                            - Install system deps."
     cecho "BL" "   * dev                                - Run the dev server."
     cecho "BL" "   * migrate                            - Run migrate."
+    cecho "BL" "   * start_minikube                     - Run minikube with profile event-testing."
 }
 
 
@@ -84,6 +91,9 @@ dev)
     ;;
 migrate)
     run_migrate
+    ;;
+start_minikube)
+    run_start_minikube
     ;;
 *)
     show_help
