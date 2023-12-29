@@ -45,11 +45,19 @@ function run_install {
     cecho "BL" "Tilt installed."
 }
 
+function run_dev {
+    cecho "BL" "Running dev server..."
+    cd app_core/
+    python src/manage.py runserver
+    cecho "BL" "Dev server stopped..."
+}
+
 function show_help {
     cecho "BL" "Help: $0 <ACTION>"
     cecho "BL" "Parameters :"
     cecho "BL" " - ACTION values :"
     cecho "BL" "   * install                            - Install system deps."
+    cecho "BL" "   * dev                                - Run the dev server."
 }
 
 
@@ -62,6 +70,9 @@ fi
 case "$1" in
 install)
     run_install
+    ;;
+dev)
+    run_dev
     ;;
 *)
     show_help
