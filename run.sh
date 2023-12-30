@@ -83,10 +83,33 @@ function run_dev {
 }
 
 function run_local_celery_task {
-    cecho "BL" "$1"
+    # Expects 2 args: service (app_core or app_peripheral) and a message to send.
+    if [ "$#" -ne 2 ]; then
+        echo "Error: Two arguments are required - service and message."
+        return 1
+    fi
+
+    service="$1"
+    message="$2"
+
+    case "$service" in
+        app_core)
+            port=8001
+            ;;
+        app_peripheral)
+            port=8002
+            ;;
+        *)
+            echo "Error: Unsupported service. Supported values are 'app_core' and 'app_peripheral'."
+            return 1
+            ;;
+    esac
+
     cecho "BL" "Running local celery task on app_core..."
-    echo "curl -X POST -H "Content-Type: application/json" -d "{\"body\": \"$1\"}" http://localhost:8001/local-celery-task"
-    curl -X POST -H "Content-Type: application/json" -d "{\"body\": \"$1\"}" http://localhost:8001/local-celery-task
+    # echo "curl -X POST -H "Content-Type: application/json" -d "{\"body\": \"$1\"}" http://localhost:8001/local-celery-task"
+    echo   "curl -X POST -H \"Content-Type: application/json\" -d \"{\"body\": \"$message\"}\" http://localhost:$port/local-celery-task"
+    curl -X POST -H "Content-Type: application/json" -d "{\"body\": \"$message\"}" "http://localhost:$port/local-celery-task"
+    
     echo ""
     cecho "BL" "Finished running local celery task..."
 }
@@ -95,13 +118,14 @@ function show_help {
     cecho "BL" "Help: $0 <ACTION>"
     cecho "BL" "Parameters :"
     cecho "BL" " - ACTION values :"
-    cecho "BL" "   * install                            - Install system deps."
-    cecho "BL" "   * dev                                - Run the dev server."
-    cecho "BL" "   * migrate                            - Run migrate."
-    cecho "BL" "   * start_minikube                     - Run minikube with profile event-testing."
-    cecho "BL" "   * tilt                               - Run Tilt to deploy resources to minikube."
-    cecho "BL" "   * clean                              - Stop Tilt and kill minikube."
-    cecho "BL" "   * local_celery_task                  - Execute a celery task on app_core (no IPC)."
+    cecho "BL" "   * install                               - Install system deps."
+    cecho "BL" "   * dev                                   - Run the dev server."
+    cecho "BL" "   * migrate                               - Run migrate."
+    cecho "BL" "   * start_minikube                        - Run minikube with profile event-testing."
+    cecho "BL" "   * tilt                                  - Run Tilt to deploy resources to minikube."
+    cecho "BL" "   * clean                                 - Stop Tilt and kill minikube."
+    cecho "BL" "   * local_celery_task [service, message]  - Execute a celery task on a service (no IPC)."
+    cecho "BL" "                                             eg ./run.sh local_celery_task app_peripheral message"
 }
 
 
@@ -134,7 +158,7 @@ clean)
     run_clean
     ;;
 local_celery_task)
-    run_local_celery_task $2
+    run_local_celery_task $2 $3
     ;;
 *)
     show_help
