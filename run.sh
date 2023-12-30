@@ -77,6 +77,15 @@ function run_dev {
     run_tilt
 }
 
+function run_local_celery_task {
+    cecho "BL" "$1"
+    cecho "BL" "Running local celery task on app_core..."
+    echo "curl -X POST -H "Content-Type: application/json" -d "{\"body\": \"$1\"}" http://localhost:8001/local-celery-task"
+    curl -X POST -H "Content-Type: application/json" -d "{\"body\": \"$1\"}" http://localhost:8001/local-celery-task
+    echo ""
+    cecho "BL" "Finished running local celery task..."
+}
+
 function show_help {
     cecho "BL" "Help: $0 <ACTION>"
     cecho "BL" "Parameters :"
@@ -87,6 +96,7 @@ function show_help {
     cecho "BL" "   * start_minikube                     - Run minikube with profile event-testing."
     cecho "BL" "   * tilt                               - Run Tilt to deploy resources to minikube."
     cecho "BL" "   * clean                              - Stop Tilt and kill minikube."
+    cecho "BL" "   * local_celery_task                  - Execute a celery task on app_core (no IPC)."
 }
 
 
@@ -114,6 +124,9 @@ tilt)
     ;;
 clean)
     run_clean
+    ;;
+local_celery_task)
+    run_local_celery_task $2
     ;;
 *)
     show_help
