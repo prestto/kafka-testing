@@ -53,8 +53,7 @@ function run_migrate {
 }
 
 function run_clean {
-    cecho "BL" "Tilt down..."
-    tilt down --context event-testing
+    run_down
     cecho "BL" "Killing minikube..."
     minikube delete -p event-testing
     cecho "BL" "Minikube killed..."
@@ -70,6 +69,12 @@ function run_tilt {
     cecho "BL" "Tilting..."
     tilt up --context event-testing
     cecho "BL" "Finished Tilting..."
+}
+
+function run_down {
+    cecho "BL" "DeTilting..."
+    tilt down --context event-testing
+    cecho "BL" "Finished DeTilting..."
 }
 
 function run_dev {
@@ -121,6 +126,9 @@ start_minikube)
     ;;
 tilt)
     run_tilt
+    ;;
+down)
+    run_down
     ;;
 clean)
     run_clean
