@@ -102,7 +102,22 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: celery-worker
+  name: celery-worker-app-core
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: celery-worker-app-core
+  template:
+    metadata:
+      labels:
+        app: celery-worker-app-core
+    spec:
+      containers:
+        - name: celery-worker-app-core
+          image: celery-worker-app-core
+          ports:
+            - containerPort: 8000
 spec:
   replicas: 1
   selector:

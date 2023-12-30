@@ -28,7 +28,7 @@ docker_build(
     dockerfile="./rabbitmq/Dockerfile-rabbitmq"
 )
 docker_build(
-    'celery-worker',
+    'celery-worker-app-core',
     context="app_core",
     dockerfile="./app_core/Dockerfile-celery-worker"
 )
