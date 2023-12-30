@@ -32,3 +32,8 @@ docker_build(
     context="app_core",
     dockerfile="./app_core/Dockerfile-celery-worker"
 )
+docker_build(
+    'celery-worker-app-peripheral',
+    context="app_peripheral",
+    dockerfile="./app_peripheral/Dockerfile-celery-worker"
+)

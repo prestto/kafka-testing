@@ -8,6 +8,9 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 django = "^5.0"
+kombu = "^5.3.4"
+celery = "^5.3.6"
+amqp = "^5.2.0"
 
 
 [tool.poetry.group.dev.dependencies]

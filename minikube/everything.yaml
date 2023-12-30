@@ -118,18 +118,23 @@ spec:
           image: celery-worker-app-core
           ports:
             - containerPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-worker-app-peripheral
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: celery-worker
+      app: celery-worker-app-peripheral
   template:
     metadata:
       labels:
-        app: celery-worker
+        app: celery-worker-app-peripheral
     spec:
       containers:
-        - name: celery-worker
-          image: celery-worker
+        - name: celery-worker-app-peripheral
+          image: celery-worker-app-peripheral
           ports:
             - containerPort: 8000
