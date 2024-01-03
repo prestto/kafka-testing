@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from kombu import Exchange, Queue
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -114,3 +116,47 @@ CELERY_BROKER_URL = "amqp://rabbit_user:rabbit_password@rabbitmq-service:5672"
 CELERY_ENABLED = True
 
 CELERY_TIMEZONE = "UTC"
+
+# By default all tasks will go to default.
+CELERY_DEFAULT_QUEUE = "default"
+CELERY_DEFAULT_EXCHANGE = "default_exchange"
+CELERY_DEFAULT_ROUTING_KEY = "default_queue"
+
+# Exchange for peripheral app.
+PERIPHERAL_EXCHANGE = "peripheral_exchange"
+peripheral_exchange = Exchange(name=PERIPHERAL_EXCHANGE, type="topic")
+
+# Crossover queues.
+PERIPHERAL_QUEUE_ONE = "peripheral_queue.one"
+PERIPHERAL_QUEUE_TWO = "peripheral_queue.two"
+PERIPHERAL_QUEUE_THREE = "peripheral_queue.three"
+
+# Message routing: https://docs.celeryq.dev/en/stable/userguide/configuration.html#message-routing
+# Basics: https://docs.celeryq.dev/en/stable/userguide/routing.html#automatic-routing
+# Routes: https://docs.celeryq.dev/en/stable/userguide/configuration.html#task-routes
+CELERY_QUEUES = [
+    Queue(
+        name=CELERY_DEFAULT_QUEUE,
+        exchange=CELERY_DEFAULT_EXCHANGE,
+        routing_key=CELERY_DEFAULT_ROUTING_KEY,
+    ),
+    Queue(
+        name=PERIPHERAL_QUEUE_ONE,
+        exchange=peripheral_exchange,
+        routing_key="app_peripheral.yes",
+    ),
+    Queue(
+        name=PERIPHERAL_QUEUE_TWO,
+        exchange=peripheral_exchange,
+        routing_key="app_peripheral.yes",
+    ),
+    Queue(
+        name=PERIPHERAL_QUEUE_THREE,
+        exchange=peripheral_exchange,
+        routing_key="app_peripheral.no",
+    ),
+]
+
+CELERY_ROUTES = {
+    "app_peripheral.interface.tasks.*:": {"exchange": "peripheral_exchange"},
+}

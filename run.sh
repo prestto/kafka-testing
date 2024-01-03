@@ -114,6 +114,18 @@ function run_local_celery_task {
     cecho "BL" "Finished running local celery task..."
 }
 
+function run_remote_celery_task {
+    message="$1"
+
+    cecho "BL" "Running remote celery task from app_core on app_peripheral..."
+    echo   "curl -X POST -H \"Content-Type: application/json\" -d \"{\"body\": \"$message\"}\" http://localhost:8001/remote-celery-task"
+    curl -X POST -H "Content-Type: application/json" -d "{\"body\": \"$message\"}" "http://localhost:8001/remote-celery-task"
+    echo ""
+    cecho "BL" "Finished running local celery task..."
+}
+
+
+
 function show_help {
     cecho "BL" "Help: $0 <ACTION>"
     cecho "BL" "Parameters :"
@@ -126,6 +138,9 @@ function show_help {
     cecho "BL" "   * clean                                 - Stop Tilt and kill minikube."
     cecho "BL" "   * local_celery_task [service, message]  - Execute a celery task on a service (no IPC)."
     cecho "BL" "                                             eg ./run.sh local_celery_task app_peripheral message"
+    cecho "BL" "   * remote_celery_task [service, message] - Execute a celery task another service (with IPC)."
+    cecho "BL" "                                             eg ./run.sh remote_celery_task message"
+    
 }
 
 
@@ -159,6 +174,9 @@ clean)
     ;;
 local_celery_task)
     run_local_celery_task $2 $3
+    ;;
+remote_celery_task)
+    run_remote_celery_task $2
     ;;
 *)
     show_help

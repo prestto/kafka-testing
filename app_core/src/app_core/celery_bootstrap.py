@@ -16,5 +16,8 @@ app.conf.task_default_queue = "default"
 # Load task modules from all registered Django app configs.
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
+# Define the queues
+app.conf.task_queues = settings.CELERY_QUEUES
+
 # Auto-discover tasks in all installed apps.
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
