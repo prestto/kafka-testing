@@ -20,4 +20,4 @@ RUN pip install poetry \
 COPY ./src/ .
 
 # Run the Django development server
-CMD ["celery", "-A", "app_peripheral.celery_bootstrap", "worker", "--loglevel=info", "-Q", "cross_over_app_to_peripheral_queue"]
+CMD ["celery", "-A", "app_peripheral.celery_bootstrap", "worker", "--loglevel=info", "--queues=peripheral_queue.one,peripheral_queue.two,peripheral_queue.three"]

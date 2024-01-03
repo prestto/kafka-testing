@@ -121,13 +121,13 @@ CELERY_DEFAULT_QUEUE = "default"
 CELERY_DEFAULT_EXCHANGE = "default_exchange"
 CELERY_DEFAULT_ROUTING_KEY = "default_queue"
 
-CELERY_QUEUES = {
+CELERY_ROUTES = {
     CELERY_DEFAULT_QUEUE: {
         "exchange": CELERY_DEFAULT_EXCHANGE,
         "routing_key": CELERY_DEFAULT_ROUTING_KEY,
     },
     "cross_over_app_to_peripheral_queue": {
         "exchange": "cross_over_app_to_peripheral_exchange",
-        "routing_key": "cross_over_app_to_peripheral_queue",
+        "routing_key": "cross_over_app_to_peripheral_exchange",
     },
 }

@@ -2,6 +2,7 @@ import json
 import traceback
 
 from celery.execute import send_task
+from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -45,7 +46,8 @@ def remote_celery_task(request):
             send_task(
                 "app_peripheral.interface.tasks.crossover_task",
                 args=[body_value],
-                queue="cross_over_app_to_peripheral_queue",
+                exchange=settings.PERIPHERAL_EXCHANGE,
+                routing_key="app_peripheral.yes",
             )
             return JsonResponse(
                 {
